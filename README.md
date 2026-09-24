@@ -15,8 +15,8 @@ Everything personal — name, age, photo, song, tagline, wishes, quotes, stats a
 
 ## Hosting
 
-Deployed on Vercel — `vercel.json` tells it to build with Vite and serve `dist/`. The link-preview card
-(WhatsApp, iMessage…) is `public/og-image.jpg`.
+Live at https://michelle-turns-21.vercel.app (Vercel project `michelle`). `vercel.json` tells Vercel to build with Vite
+and serve `dist/`. The link-preview card (WhatsApp, iMessage…) is `public/og-image.jpg`; its address is in `index.html`.
 
 ## Layout
 
