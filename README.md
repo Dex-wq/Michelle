@@ -13,6 +13,11 @@ npm run build    # production build in dist/
 Everything personal — name, age, photo, song, tagline, wishes, quotes, stats and the letter — lives in
 [`src/content.js`](src/content.js). Put the photo and the song in `public/` and point `PHOTO_SRC` / `AUDIO_SRC` at them.
 
+## Hosting
+
+Deployed on Vercel — `vercel.json` tells it to build with Vite and serve `dist/`. The link-preview card
+(WhatsApp, iMessage…) is `public/og-image.jpg`.
+
 ## Layout
 
 - `src/App.jsx` — puts the sections together and owns the shared song player
