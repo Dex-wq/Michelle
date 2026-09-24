@@ -1,16 +1,25 @@
-# React + Vite
+# Happy Birthday, Michelle 💜
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A one-page birthday tribute built with React + Vite.
 
-Currently, two official plugins are available:
+```bash
+npm install
+npm run dev      # local preview
+npm run build    # production build in dist/
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Customising
 
-## React Compiler
+Everything personal — name, age, photo, song, tagline, wishes, quotes, stats and the letter — lives in
+[`src/content.js`](src/content.js). Put the photo and the song in `public/` and point `PHOTO_SRC` / `AUDIO_SRC` at them.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Hosting
 
-## Expanding the ESLint configuration
+Live at https://michelle-bay-nu.vercel.app — Vercel deploys `main` automatically. `vercel.json` tells Vercel to build
+with Vite and serve `dist/`. The link-preview card (WhatsApp, iMessage…) is `public/og-image.jpg`; its address is in `index.html`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Layout
+
+- `src/App.jsx` — puts the sections together and owns the shared song player
+- `src/components/` — one file per section (Hero, Letter, Stats, Constellation, Lanterns, WishJar, Music, Quotes, Finale) plus the ambient layers (sky, hearts, cursor, scroll bar, music button)
+- `src/index.css` — design tokens, section styles, animations and the reduced-motion rules
