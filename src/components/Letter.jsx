@@ -1,0 +1,79 @@
+import { useEffect, useState } from "react";
+import { FRIEND_NAME, LETTER } from "../content";
+import { useInView, useReducedMotion } from "../hooks";
+import Reveal from "./Reveal";
+import SectionHeader from "./SectionHeader";
+
+const PARAGRAPHS = LETTER.split(/\n+/)
+  .map((p) => p.replace(/\s+/g, " ").trim())
+  .filter(Boolean);
+const STARTS = PARAGRAPHS.map((_, i) => PARAGRAPHS.slice(0, i).join("").length);
+const TEXT = PARAGRAPHS.join("");
+const TOTAL = TEXT.length;
+const PARAGRAPH_BREAKS = new Set(STARTS.slice(1));
+
+// pause a little longer on punctuation and between paragraphs, like someone writing
+function delayBefore(typed) {
+  if (PARAGRAPH_BREAKS.has(typed)) return 360;
+  const prev = TEXT[typed - 1] ?? "";
+  if (prev === ",") return 80;
+  if (".!?…".includes(prev) && prev) return 140;
+  return 17;
+}
+
+export default function Letter() {
+  const reduced = useReducedMotion();
+  const [letterRef, inView] = useInView({ threshold: 0.2 });
+  const [typed, setTyped] = useState(0);
+  const [skipped, setSkipped] = useState(false);
+  const count = reduced || skipped ? TOTAL : typed;
+  const done = count >= TOTAL;
+  const caretAt = done ? -1 : PARAGRAPHS.findLastIndex((_, i) => STARTS[i] <= count);
+
+  useEffect(() => {
+    if (!inView || done) return;
+    const t = setTimeout(() => setTyped((n) => n + 1), delayBefore(count));
+    return () => clearTimeout(t);
+  }, [inView, done, count]);
+
+  return (
+    <section id="letter" className="section letter-section">
+      <div className="container narrow">
+        <SectionHeader eyebrow="A Letter From the Stars" />
+        <Reveal>
+          <article ref={letterRef} className="letter">
+            <div className="letter-seal" aria-hidden="true">
+              {FRIEND_NAME.trim().charAt(0).toUpperCase()}
+            </div>
+            <div className="sr-only">
+              {PARAGRAPHS.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+            {/* the untyped rest stays in the layout (hidden) so the card never jumps while typing */}
+            <div className="letter-body" aria-hidden="true">
+              {PARAGRAPHS.map((p, i) => {
+                const shown = Math.min(p.length, Math.max(0, count - STARTS[i]));
+                const role = i === 0 ? "letter-lead" : i === PARAGRAPHS.length - 1 ? "letter-signature" : undefined;
+                return (
+                  <p key={i} className={role}>
+                    {p.slice(0, shown)}
+                    {i === caretAt && <span className="caret" />}
+                    <span className="ghost">{p.slice(shown)}</span>
+                  </p>
+                );
+              })}
+            </div>
+          </article>
+        </Reveal>
+        <div className="letter-actions">
+          {!done && (
+            <button type="button" className="text-btn" onClick={() => setSkipped(true)}>
+              Reveal the whole letter ✦
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
