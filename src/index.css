@@ -452,6 +452,13 @@ html.has-sparkle-cursor * {
   animation: twinkle 4s ease-in-out infinite;
 }
 
+/* fewer twinkling layers on phones */
+@media (max-width: 700px) {
+  .star:nth-of-type(n + 91) {
+    display: none;
+  }
+}
+
 .shooting-star {
   position: absolute;
   width: 150px;
