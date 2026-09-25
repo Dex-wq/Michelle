@@ -2335,122 +2335,6 @@ a {
   --draw-delay: 0.6s;
 }
 
-/* ══════════════════════════════════════════════════════════
-   p.s. — a postcard, and a way to write back
-   ══════════════════════════════════════════════════════════ */
-.reply-section {
-  padding-block: 0 clamp(80px, 10vw, 120px);
-  text-align: center;
-}
-
-.ps-pin {
-  --pin-y: 60px;
-  --pin-rot: 7deg;
-  --pin-scale: 1.06;
-}
-
-.ps-card {
-  position: relative;
-  max-width: 580px;
-  margin: 0 auto;
-  padding: 40px clamp(24px, 5vw, 46px) 32px;
-  border-radius: 3px;
-  background: var(--paper);
-  color: var(--pen);
-  text-align: left;
-  box-shadow: var(--shadow-paper);
-  transform: rotate(-1.5deg);
-}
-
-.ps-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-image: var(--noise);
-  opacity: 0.12;
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-
-.ps-tape {
-  top: -15px;
-  left: 50%;
-  width: 110px;
-  margin-left: -55px;
-  transform: rotate(3deg);
-}
-
-.ps-stamp {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 2px;
-  width: 60px;
-  height: 70px;
-  border: 2px dashed var(--pen-pink);
-  background: #ffe3ee;
-  box-shadow: 0 0 0 4px #ffe3ee;
-  color: var(--pen-pink);
-  transform: rotate(6deg);
-}
-
-.ps-stamp b {
-  font-size: 26px;
-  line-height: 1;
-}
-
-.ps-stamp small {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.ps-kicker {
-  font-family: var(--font-hand);
-  font-size: 54px;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--pen-pink);
-}
-
-.ps-text {
-  margin-top: 14px;
-  font-family: var(--font-hand);
-  font-size: clamp(27px, 3.2vw, 33px);
-  font-weight: 700;
-  line-height: 1.25;
-  text-wrap: pretty;
-}
-
-.ps-sign {
-  margin-top: 18px;
-  font-family: var(--font-hand);
-  font-size: 26px;
-  font-weight: 600;
-  text-align: right;
-  color: var(--pen-soft);
-}
-
-.reply-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  margin-top: 46px;
-}
-
-.reply-note {
-  font-family: var(--font-hand);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink-soft);
-}
-
 /* ── Footer & floating song button ───────────────────────── */
 .footer {
   position: relative;
@@ -2462,6 +2346,48 @@ a {
   font-weight: 600;
   text-align: center;
   color: var(--ink-mute);
+}
+
+.reply-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-top: 14px;
+  border: 2px solid var(--pen);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--pen);
+  box-shadow: 3px 3px 0 var(--pink);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.reply-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--pink);
+}
+
+.reply-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--pink);
+}
+
+.reply-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.reply-bubble {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.reply-phone {
+  fill: currentColor;
 }
 
 /* on phones, keep the line clear of the floating song button */
