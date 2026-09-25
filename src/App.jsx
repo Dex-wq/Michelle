@@ -15,6 +15,7 @@ import WishJar from "./components/WishJar";
 import Music from "./components/Music";
 import Notes from "./components/Notes";
 import Finale from "./components/Finale";
+import Reply from "./components/Reply";
 
 // Personal text, photo and song live in ./content.js
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
         <Music playing={playing} onToggle={toggle} analyserRef={analyserRef} />
         <Notes />
         <Finale />
+        <Reply />
       </main>
       <footer className="footer">
         made with love, just for you <span className="footer-heart">♡</span>

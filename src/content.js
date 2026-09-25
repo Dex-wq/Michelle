@@ -55,4 +55,12 @@ export const STATS = [
 
 export const LETTER_DATE = "10th June";
 
-export const LETTER = `To the person who knows exactly what I mean before I've finished the sentence…\n\n You are the kind of rare that people write poems about, The kind of soul whose light makes others see more clearly, believe more deeply, and strive to become the best version of themselves.\n\nYou deserve love in its most purest form.You deserve the world and I pray God grants you just that\n\nOn this day that the universe decided to gift you to us: I hope you feel every single ounce of the love that surrounds you. \n\nYou are adored.\n\n You are chosen.\n\n You are so deeply seen.\n\n I pray that God blesses you and keeps you safe.\n\n That He may order your steps.\n\nThat everything you touch to do may be blessed.\n\nThat He may grant you your Heart's Desire.\n\nI pray that He may Cover you with His wings,Protect you fully and watch over you.\n\n Na hiyo pass list ya 3rd year lazima upatikane ndani.\n\n I LOVE YOU \n\n May this be your best year yet.\n\n Happy 21, Michelle. 💜`;
+// the p.s. at the very end, and where her reply goes
+export const PS_NOTE = {
+  text: "Thank you for being my shoulder — to lean on, to cry on, to laugh on, no questions asked.",
+  sign: "your best friend, always",
+};
+export const WHATSAPP_NUMBER = "254711280554"; // international format, no + or leading 0
+export const REPLY_MESSAGE = "I just opened my birthday surprise 😭💜";
+
+export const LETTER = `To the person who knows exactly what I mean before I've finished the sentence…\n\n You are the kind of rare that people write poems about, The kind of soul whose light makes others see more clearly, believe more deeply, and strive to become the best version of themselves.\n\nYou deserve love in its most purest form. You deserve the world and I pray God grants you just that\n\nOn this day that the universe decided to gift you to us: I hope you feel every single ounce of the love that surrounds you. \n\nYou are adored.\n\n You are chosen.\n\n You are so deeply seen.\n\n I pray that God blesses you and keeps you safe.\n\n That He may order your steps.\n\nThat everything you touch to do may be blessed.\n\nThat He may grant you your Heart's Desire.\n\nI pray that He may Cover you with His wings, protect you fully and watch over you.\n\n Na hiyo pass list ya 3rd year lazima upatikane ndani.\n\n I LOVE YOU \n\n May this be your best year yet.\n\n Happy 21, Michelle. 💜`;
