@@ -10,7 +10,7 @@ npm run build    # production build in dist/
 
 ## Customising
 
-Everything personal — name, age, photo, song, tagline, wishes, quotes, stats and the letter — lives in
+Everything personal — name, age, birth year, photo, song, tagline, wishes, notes, stats and the letter — lives in
 [`src/content.js`](src/content.js). Put the photo and the song in `public/` and point `PHOTO_SRC` / `AUDIO_SRC` at them.
 
 ## Hosting
@@ -21,5 +21,6 @@ with Vite and serve `dist/`. The link-preview card (WhatsApp, iMessage…) is `p
 ## Layout
 
 - `src/App.jsx` — puts the sections together and owns the shared song player
-- `src/components/` — one file per section (Hero, Letter, Stats, Constellation, Lanterns, WishJar, Music, Quotes, Finale) plus the ambient layers (sky, hearts, cursor, scroll bar, music button)
+- `src/components/` — the opening envelope (Intro), one file per section (Hero, Letter, Stats, Constellation, Lanterns, WishJar, Music, Notes, Finale), hand-drawn doodles, plus the ambient layers (sky, tap sparkles, scroll bar, music button)
+- `src/confetti.js`, `src/fireworks.js` — the celebration canvases
 - `src/index.css` — design tokens, section styles, animations and the reduced-motion rules

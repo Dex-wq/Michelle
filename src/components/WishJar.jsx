@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
+import { AGE, FRIEND_NAME } from "../content";
 import { burst } from "../confetti";
+import { splitTrailingEmoji } from "../utils";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
 
-const MAX = 20;
+const MAX = AGE; // one star for every year
 const JAR_BOTTOM = 269;
 const JAR_TOP = 80;
 const BODY = "M56 48C56 62 26 70 26 100v144c0 18 14 28 32 28h84c18 0 32-10 32-28V100c0-30-30-38-30-52Z";
@@ -44,6 +46,7 @@ const STARS = Array.from({ length: MAX }, (_, i) => {
 export default function WishJar() {
   const [count, setCount] = useState(0);
   const jarRef = useRef(null);
+  const [name] = splitTrailingEmoji(FRIEND_NAME);
   const full = count >= MAX;
   const level = count === 0 ? JAR_BOTTOM + 10 : JAR_BOTTOM - (count / MAX) * (JAR_BOTTOM - JAR_TOP);
 
@@ -59,12 +62,12 @@ export default function WishJar() {
   return (
     <section id="jar" className="section">
       <div className="container jar-section">
-        <SectionHeader eyebrow="Pour Your Love" title="Wish Jar">
-          Click to pour wishes in ✦
+        <SectionHeader kicker="a jar full of you" title="Your jar of stars">
+          Drop in {MAX} stars, one for every year you&apos;ve made the world brighter.
         </SectionHeader>
         <Reveal className="jar-wrap">
           <div ref={jarRef} className={`jar${full ? " is-full" : ""}`}>
-            <svg viewBox="0 0 200 300" role="img" aria-label={`${count} of ${MAX} wishes in the jar`}>
+            <svg viewBox="0 0 200 300" role="img" aria-label={`${count} of ${MAX} stars in the jar`}>
               <defs>
                 <clipPath id="jar-inside">
                   <path d={INSIDE} />
@@ -128,18 +131,27 @@ export default function WishJar() {
               <path d="M157 124c2 14 2 28 0 40" className="jar-shine jar-shine-thin" />
               <path d={BODY} className="jar-outline" stroke="url(#jar-glass)" filter="url(#jar-glow)" />
               <rect x="50" y="38" width="100" height="13" rx="6.5" className="jar-rim" />
+              {/* a little gift tag tied to the neck */}
+              <path d="M146 46c8 2 14 8 17 17" className="jar-string" />
+              <g className="jar-tag" transform="rotate(14 172 76)">
+                <rect x="148" y="63" width="50" height="25" rx="5" />
+                <circle cx="154" cy="75.5" r="2" className="jar-tag-hole" />
+                <text x="176" y="80" textAnchor="middle">
+                  {name}
+                </text>
+              </g>
             </svg>
           </div>
           <p className="jar-count">
-            <strong>{count}</strong> / {MAX} wishes poured in
-            {full && <span className="jar-full">✨ Overflowing with love!</span>}
+            <strong>{count}</strong> / {MAX} stars
+            {full && <span className="jar-full">✨ {MAX} years of you — and it&apos;s overflowing with love</span>}
           </p>
-          <button type="button" className="btn btn-primary btn-lg" onClick={pour} disabled={full}>
-            {full ? "🌟 Jar is Full!" : "⭐ Pour a Wish"}
+          <button type="button" className="btn btn-lilac btn-lg" onClick={pour} disabled={full}>
+            {full ? "🌟 Full of you!" : "⭐ Add a star"}
           </button>
           {full && (
             <button type="button" className="text-btn" onClick={() => setCount(0)}>
-              ↺ Empty the jar &amp; pour again
+              ↺ Empty it and fill it again
             </button>
           )}
         </Reveal>

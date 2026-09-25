@@ -1,10 +1,10 @@
-import { AUDIO_SRC, FRIEND_NAME } from "./content";
+import { useState } from "react";
+import { AUDIO_SRC } from "./content";
 import { useAudioPlayer } from "./hooks";
-import { splitTrailingEmoji } from "./utils";
 import Backdrop from "./components/Backdrop";
-import FloatingHearts from "./components/FloatingHearts";
 import ScrollProgress from "./components/ScrollProgress";
-import SparkleCursor from "./components/SparkleCursor";
+import TapSparkles from "./components/TapSparkles";
+import Intro from "./components/Intro";
 import MusicDock from "./components/MusicDock";
 import Hero from "./components/Hero";
 import Letter from "./components/Letter";
@@ -13,21 +13,21 @@ import Constellation from "./components/Constellation";
 import Lanterns from "./components/Lanterns";
 import WishJar from "./components/WishJar";
 import Music from "./components/Music";
-import Quotes from "./components/Quotes";
+import Notes from "./components/Notes";
 import Finale from "./components/Finale";
 
 // Personal text, photo and song live in ./content.js
 export default function App() {
-  const { audioRef, analyserRef, playing, toggle } = useAudioPlayer();
-  const [name] = splitTrailingEmoji(FRIEND_NAME);
+  const { audioRef, analyserRef, playing, play, toggle } = useAudioPlayer();
+  const [revealed, setRevealed] = useState(false);
 
   return (
     <>
       {AUDIO_SRC && <audio ref={audioRef} src={AUDIO_SRC} preload="auto" loop />}
       <Backdrop />
-      <FloatingHearts />
       <ScrollProgress />
-      <main className="page">
+      <Intro onOpen={play} onReveal={() => setRevealed(true)} />
+      <main className={`page${revealed ? "" : " is-waiting"}`}>
         <Hero playing={playing} onToggle={toggle} />
         <Letter />
         <Stats />
@@ -35,12 +35,12 @@ export default function App() {
         <Lanterns />
         <WishJar />
         <Music playing={playing} onToggle={toggle} analyserRef={analyserRef} />
-        <Quotes />
+        <Notes />
         <Finale />
       </main>
-      <footer className="footer">made with 💜 for {name}</footer>
+      <footer className="footer">made with love, just for you ♡</footer>
       <MusicDock playing={playing} onToggle={toggle} />
-      <SparkleCursor />
+      <TapSparkles />
     </>
   );
 }

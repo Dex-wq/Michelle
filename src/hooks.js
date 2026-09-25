@@ -59,13 +59,9 @@ export function useAudioPlayer() {
     };
   }, []);
 
-  const toggle = useCallback(() => {
+  const play = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio) return;
-    if (!audio.paused) {
-      audio.pause();
-      return;
-    }
+    if (!audio || !audio.paused) return;
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!contextRef.current && Ctx && !isIOS()) {
       try {
@@ -90,5 +86,12 @@ export function useAudioPlayer() {
     audio.play().catch(() => {});
   }, []);
 
-  return { audioRef, analyserRef, playing, toggle };
+  const toggle = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) play();
+    else audio.pause();
+  }, [play]);
+
+  return { audioRef, analyserRef, playing, play, toggle };
 }

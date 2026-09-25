@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { FRIEND_NAME, LETTER } from "../content";
+import { LETTER } from "../content";
 import { useInView, useReducedMotion } from "../hooks";
 import Reveal from "./Reveal";
+import Doodle from "./Doodle";
 import SectionHeader from "./SectionHeader";
 
 const PARAGRAPHS = LETTER.split(/\n+/)
@@ -11,6 +12,7 @@ const STARTS = PARAGRAPHS.map((_, i) => PARAGRAPHS.slice(0, i).join("").length);
 const TEXT = PARAGRAPHS.join("");
 const TOTAL = TEXT.length;
 const PARAGRAPH_BREAKS = new Set(STARTS.slice(1));
+const TODAY = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 // pause a little longer on punctuation and between paragraphs, like someone writing
 function delayBefore(typed) {
@@ -39,12 +41,13 @@ export default function Letter() {
   return (
     <section id="letter" className="section letter-section">
       <div className="container narrow">
-        <SectionHeader eyebrow="A Letter From the Stars" />
+        <SectionHeader kicker="okay — read this first" />
         <Reveal>
           <article ref={letterRef} className="letter">
-            <div className="letter-seal" aria-hidden="true">
-              {FRIEND_NAME.trim().charAt(0).toUpperCase()}
-            </div>
+            <span className="tape tape-a letter-tape" aria-hidden="true" />
+            <span className="letter-date" aria-hidden="true">
+              {TODAY}
+            </span>
             <div className="sr-only">
               {PARAGRAPHS.map((p, i) => (
                 <p key={i}>{p}</p>
@@ -64,12 +67,13 @@ export default function Letter() {
                 );
               })}
             </div>
+            <Doodle type="heart" className="letter-heart" />
           </article>
         </Reveal>
         <div className="letter-actions">
           {!done && (
             <button type="button" className="text-btn" onClick={() => setSkipped(true)}>
-              Reveal the whole letter ✦
+              too slow? show me all of it
             </button>
           )}
         </div>

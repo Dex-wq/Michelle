@@ -7,6 +7,13 @@ export function splitTrailingEmoji(text = "") {
   return [text.slice(0, match.index).trimEnd(), match[0].trim()];
 }
 
+// 21 → "21st", 22 → "22nd", 13 → "13th"
+export function ordinal(n) {
+  const suffix = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return `${n}${suffix[(v - 20) % 10] || suffix[v] || suffix[0]}`;
+}
+
 // 64px radial glow used by the canvas scenes — drawing a sprite is far cheaper than shadowBlur
 export function glowSprite(hex, size = 64) {
   const canvas = document.createElement("canvas");
