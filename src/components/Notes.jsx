@@ -13,10 +13,10 @@ export default function Notes() {
         <SectionHeader kicker="for the days you forget" title="Little reminders" />
         <div className="notes-grid">
           {NOTES.map((n, i) => (
-            <Reveal key={n.text} delay={(i % 3) * 110}>
+            <Reveal key={n.text} className="reveal-pin" delay={250 + (i % 3) * 160}>
               <figure
                 className="sticky"
-                style={{ "--tilt": `${TILTS[i % TILTS.length]}deg`, "--note": COLORS[i % COLORS.length] }}
+                style={{ "--tilt": `${TILTS[i % TILTS.length]}deg`, "--note": COLORS[i % COLORS.length], "--i": i }}
               >
                 <span className={`tape ${i % 2 ? "tape-b" : "tape-a"} sticky-tape`} aria-hidden="true" />
                 <blockquote>{n.text}</blockquote>

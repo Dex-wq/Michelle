@@ -133,12 +133,14 @@ export default function WishJar() {
               <rect x="50" y="38" width="100" height="13" rx="6.5" className="jar-rim" />
               {/* a little gift tag tied to the neck */}
               <path d="M146 46c8 2 14 8 17 17" className="jar-string" />
-              <g className="jar-tag" transform="rotate(14 172 76)">
-                <rect x="148" y="63" width="50" height="25" rx="5" />
-                <circle cx="154" cy="75.5" r="2" className="jar-tag-hole" />
-                <text x="176" y="80" textAnchor="middle">
-                  {name}
-                </text>
+              <g className="jar-tag-swing">
+                <g className="jar-tag" transform="rotate(14 172 76)">
+                  <rect x="148" y="63" width="50" height="25" rx="5" />
+                  <circle cx="154" cy="75.5" r="2" className="jar-tag-hole" />
+                  <text x="176" y="80" textAnchor="middle">
+                    {name}
+                  </text>
+                </g>
               </g>
             </svg>
           </div>

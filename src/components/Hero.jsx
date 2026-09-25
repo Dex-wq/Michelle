@@ -19,7 +19,7 @@ export default function Hero({ playing, onToggle }) {
           </h1>
           <p className="hero-tagline">{TAGLINE}</p>
           <div className="hero-actions">
-            <a className="btn btn-paper" href="#letter">
+            <a className="btn btn-paper is-inviting" href="#letter">
               I wrote you something <span aria-hidden="true">→</span>
             </a>
             <button type="button" className="btn btn-ghost" onClick={onToggle}>
