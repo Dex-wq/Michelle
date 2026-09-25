@@ -138,7 +138,7 @@ export default function Finale() {
   };
 
   return (
-    <section id="finale" className="section finale">
+    <section id="finale" className={`section finale${blown ? " is-party" : ""}`}>
       <Reveal className="container finale-inner">
         <p className="kicker finale-kicker">one last thing…</p>
         <div className="finale-cake">
@@ -147,7 +147,14 @@ export default function Finale() {
         <h2 className="finale-title">
           Happy birthday,
           <span className="finale-name">
-            {name}
+            <span className="sr-only">{name}</span>
+            <span aria-hidden="true">
+              {[...name].map((ch, i) => (
+                <span key={i} className="finale-letter" style={{ "--l": i }}>
+                  {ch}
+                </span>
+              ))}
+            </span>
             {emoji && <span className="finale-emoji">{emoji}</span>}
           </span>
         </h2>

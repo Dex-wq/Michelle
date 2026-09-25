@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LETTER } from "../content";
+import { LETTER, LETTER_DATE } from "../content";
 import { useInView, useReducedMotion } from "../hooks";
 import Reveal from "./Reveal";
 import Doodle from "./Doodle";
@@ -12,7 +12,6 @@ const STARTS = PARAGRAPHS.map((_, i) => PARAGRAPHS.slice(0, i).join("").length);
 const TEXT = PARAGRAPHS.join("");
 const TOTAL = TEXT.length;
 const PARAGRAPH_BREAKS = new Set(STARTS.slice(1));
-const TODAY = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 // pause a little longer on punctuation and between paragraphs, like someone writing
 function delayBefore(typed) {
@@ -42,11 +41,11 @@ export default function Letter() {
     <section id="letter" className="section letter-section">
       <div className="container narrow">
         <SectionHeader kicker="okay — read this first" />
-        <Reveal>
+        <Reveal className="reveal-pin letter-pin">
           <article ref={letterRef} className="letter">
             <span className="tape tape-a letter-tape" aria-hidden="true" />
             <span className="letter-date" aria-hidden="true">
-              {TODAY}
+              {LETTER_DATE}
             </span>
             <div className="sr-only">
               {PARAGRAPHS.map((p, i) => (

@@ -38,7 +38,9 @@ export default function App() {
         <Notes />
         <Finale />
       </main>
-      <footer className="footer">made with love, just for you ♡</footer>
+      <footer className="footer">
+        made with love, just for you <span className="footer-heart">♡</span>
+      </footer>
       <MusicDock playing={playing} onToggle={toggle} />
       <TapSparkles />
     </>

@@ -157,6 +157,25 @@ a {
   transform: none;
 }
 
+/* cards, notes and the letter get pinned up one at a time */
+.reveal.reveal-pin {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.reveal-pin > * {
+  opacity: 0;
+}
+
+.reveal-pin.is-visible > * {
+  animation: pin-up 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.2) var(--reveal-delay, 0ms) both;
+}
+
+.reveal-pin.is-visible .tape {
+  animation: tape-on 0.45s ease-out calc(var(--reveal-delay, 0ms) + 0.5s) both;
+}
+
 .section-head {
   display: flex;
   flex-direction: column;
@@ -192,6 +211,50 @@ a {
   color: var(--ink);
   text-wrap: balance;
   font-variation-settings: "opsz" 144;
+}
+
+.section-head .kicker {
+  clip-path: inset(-30% 100% -30% -5%);
+  transition: clip-path 1s cubic-bezier(0.6, 0.05, 0.3, 1) 0.05s;
+}
+
+.section-head.is-visible .kicker {
+  clip-path: inset(-30% -5% -30% -5%);
+}
+
+.title .word {
+  display: inline-block;
+  margin: -0.12em -0.06em -0.16em;
+  padding: 0.12em 0.06em 0.16em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.title .word > span {
+  display: inline-block;
+  translate: 0 110%;
+  rotate: 5deg;
+  transition:
+    translate 0.85s var(--ease-out) calc(0.12s + var(--w) * 80ms),
+    rotate 0.85s var(--ease-out) calc(0.12s + var(--w) * 80ms);
+}
+
+.section-head.is-visible .title .word > span {
+  translate: 0 0;
+  rotate: 0deg;
+}
+
+.section-head .sub {
+  opacity: 0;
+  translate: 0 14px;
+  transition:
+    opacity 0.8s ease 0.5s,
+    translate 0.8s var(--ease-out) 0.5s;
+}
+
+.section-head.is-visible .sub {
+  opacity: 1;
+  translate: 0 0;
 }
 
 .sub {
@@ -511,6 +574,22 @@ a {
   visibility: hidden;
 }
 
+.intro-floaters {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.intro-floaters span {
+  position: absolute;
+  bottom: -40px;
+  font-size: var(--size);
+  line-height: 1;
+  opacity: 0;
+  animation: float-up var(--dur) linear infinite;
+}
+
 .intro-inner {
   position: relative;
   z-index: 1;
@@ -546,11 +625,18 @@ a {
   position: relative;
   width: min(340px, 80vw);
   aspect-ratio: 1.55;
-  margin: 46px 0 24px;
+  margin: 38px 0 24px;
   perspective: 1000px;
   transform: rotate(-3deg);
   transition: transform 0.35s var(--ease-out);
-  animation: drop-in 1s 0.55s var(--ease-out) both;
+  animation:
+    drop-in 1s 0.7s var(--ease-out) both,
+    bob 3.4s 1.9s ease-in-out infinite,
+    wiggle 4.6s 2.8s ease-in-out infinite;
+}
+
+.intro:not(.is-closed) .envelope {
+  animation-play-state: paused;
 }
 
 .intro.is-closed .envelope:hover {
@@ -691,13 +777,37 @@ a {
 
 /* the heading steps aside so the card has the stage */
 .intro-kicker,
-.intro-line {
+.intro-line,
+.intro-loved {
   transition: filter 0.45s ease;
 }
 
 .intro:not(.is-closed) .intro-kicker,
-.intro:not(.is-closed) .intro-line {
+.intro:not(.is-closed) .intro-line,
+.intro:not(.is-closed) .intro-loved {
   filter: opacity(0);
+}
+
+.intro-loved {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-family: var(--font-hand);
+  font-size: clamp(30px, 7vw, 40px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--butter);
+  transform: rotate(-2deg);
+  animation: fade-up 0.9s 0.55s var(--ease-out) both;
+}
+
+.intro-loved-heart {
+  width: 34px;
+  height: 32px;
+  color: var(--pink);
+  --draw-delay: 1s;
+  animation: heartbeat 1.7s 2.2s ease-in-out infinite;
 }
 
 .intro-hint {
@@ -894,7 +1004,9 @@ a {
 .hero-polaroid {
   width: var(--polaroid);
   transform: rotate(3.5deg);
-  animation: drop-in 1.1s 0.2s var(--ease-out) both;
+  animation:
+    drop-in 1.1s 0.2s var(--ease-out) both,
+    sway 7s 1.4s ease-in-out infinite;
 }
 
 .hero-polaroid .tape-a {
@@ -927,7 +1039,9 @@ a {
   color: var(--pen);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
   transform: rotate(12deg);
-  animation: pop-in 0.7s 1.05s var(--ease-out) both;
+  animation:
+    pop-in 0.7s 1.05s var(--ease-out) both,
+    wiggle 4s 2.4s ease-in-out infinite;
 }
 
 .hero-sticker b {
@@ -956,7 +1070,9 @@ a {
   line-height: 1;
   color: var(--butter);
   transform: rotate(-8deg);
-  animation: fade-up 0.8s 1.3s var(--ease-out) both;
+  animation:
+    fade-up 0.8s 1.3s var(--ease-out) both,
+    bob 3.2s 2.3s ease-in-out infinite;
 }
 
 .hero-callout-arrow {
@@ -978,6 +1094,7 @@ a {
   left: calc(50% - var(--polaroid) / 2 - 70px);
   color: var(--pink);
   --draw-delay: 1.1s;
+  animation: heartbeat 1.7s 2.6s ease-in-out infinite;
 }
 
 .hero-doodle-star {
@@ -987,6 +1104,7 @@ a {
   height: 52px;
   color: var(--gold);
   --draw-delay: 1.3s;
+  animation: wobble 4.2s 2.6s ease-in-out infinite;
 }
 
 .hero-doodle-sparkle {
@@ -996,6 +1114,7 @@ a {
   height: 30px;
   color: var(--lilac);
   --draw-delay: 1.6s;
+  animation: twirl 14s linear infinite;
 }
 
 .scroll-cue {
@@ -1190,6 +1309,12 @@ a {
   animation: blink 0.9s steps(1) infinite;
 }
 
+.letter-pin {
+  --pin-y: 70px;
+  --pin-rot: -3deg;
+  --pin-scale: 1.02;
+}
+
 .letter-heart {
   position: absolute;
   bottom: 20px;
@@ -1199,6 +1324,7 @@ a {
   color: var(--pen-pink);
   transform: rotate(-10deg);
   --draw-delay: 1.2s;
+  animation: heartbeat 1.7s 3s ease-in-out infinite;
 }
 
 .letter-actions {
@@ -1279,6 +1405,7 @@ a {
   top: 16px;
   right: 16px;
   font-size: 24px;
+  animation: bob 3s calc(var(--i) * -0.8s) ease-in-out infinite;
 }
 
 .fact-num {
@@ -1602,6 +1729,12 @@ a {
   stroke-width: 1.3;
 }
 
+/* its own group, so the origin doesn't shift the tag's rotate() attribute */
+.jar-tag-swing {
+  transform-origin: 163px 63px;
+  animation: tag-swing 3.8s ease-in-out infinite;
+}
+
 .jar-tag rect {
   fill: var(--paper);
 }
@@ -1693,10 +1826,14 @@ a {
     0 28px 50px -16px rgba(0, 0, 0, 0.8);
   transform: rotate(-3deg);
   transition: transform 0.5s var(--ease-out);
+  animation: bob 4.2s ease-in-out infinite;
 }
 
 .deck.is-playing .cassette {
   transform: rotate(0deg) scale(1.02);
+  animation:
+    bob 4.2s ease-in-out infinite,
+    groove 0.95s ease-in-out infinite alternate;
 }
 
 .cassette-screw {
@@ -1944,9 +2081,16 @@ a {
     0 1px 1px rgba(0, 0, 0, 0.2),
     0 18px 30px -12px rgba(0, 0, 0, 0.7);
   transform: rotate(var(--tilt));
+  transform-origin: 50% 0;
   transition:
     transform 0.35s var(--ease-out),
     box-shadow 0.35s;
+}
+
+.reveal-pin.is-visible > .sticky {
+  animation:
+    pin-up 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.2) var(--reveal-delay, 0ms) both,
+    flutter 6s calc(var(--reveal-delay, 0ms) + 1.2s + var(--i) * 0.7s) ease-in-out infinite;
 }
 
 .sticky::after {
@@ -2041,6 +2185,24 @@ a {
 .finale-cake {
   width: clamp(230px, 30vw, 300px);
   margin-bottom: 18px;
+}
+
+.finale-inner:not(.is-visible) .finale-cake {
+  opacity: 0;
+}
+
+.finale-inner.is-visible .finale-cake {
+  animation:
+    cake-in 1s 0.15s cubic-bezier(0.2, 0.9, 0.3, 1.3) both,
+    bob 4s 1.4s ease-in-out infinite;
+}
+
+.finale-letter {
+  display: inline-block;
+}
+
+.finale.is-party .finale-letter {
+  animation: letter-hop 0.75s calc(0.5s + var(--l) * 70ms) cubic-bezier(0.3, 0.7, 0.4, 1.3) 3;
 }
 
 .cake {
@@ -2186,6 +2348,12 @@ a {
   color: var(--ink-mute);
 }
 
+.footer-heart {
+  display: inline-block;
+  color: var(--pink);
+  animation: heartbeat 1.7s ease-in-out infinite;
+}
+
 .music-dock {
   position: fixed;
   right: max(18px, env(safe-area-inset-right));
@@ -2323,6 +2491,163 @@ a {
   }
   50% {
     translate: 0 -6px;
+  }
+}
+
+@keyframes pin-up {
+  0% {
+    opacity: 0;
+    translate: 0 var(--pin-y, -50px);
+    rotate: var(--pin-rot, -9deg);
+    scale: var(--pin-scale, 1.12);
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+
+@keyframes tape-on {
+  from {
+    opacity: 0;
+    scale: 1.5;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: 1.3deg;
+  }
+  75% {
+    rotate: -1.3deg;
+  }
+}
+
+@keyframes flutter {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: 0.9deg;
+  }
+  70% {
+    rotate: -0.7deg;
+  }
+}
+
+@keyframes heartbeat {
+  0%,
+  42%,
+  100% {
+    scale: 1;
+  }
+  12% {
+    scale: 1.18;
+  }
+  24% {
+    scale: 1;
+  }
+  32% {
+    scale: 1.1;
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  50% {
+    rotate: 14deg;
+    scale: 1.12;
+  }
+}
+
+@keyframes twirl {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+    rotate: -12deg;
+  }
+  12% {
+    opacity: 0.55;
+  }
+  50% {
+    translate: 22px -55vh;
+    rotate: 10deg;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    translate: -12px -112vh;
+    rotate: -8deg;
+  }
+}
+
+@keyframes tag-swing {
+  0%,
+  100% {
+    rotate: -5deg;
+  }
+  50% {
+    rotate: 7deg;
+  }
+}
+
+@keyframes groove {
+  from {
+    rotate: -1.4deg;
+  }
+  to {
+    rotate: 1.4deg;
+  }
+}
+
+@keyframes cake-in {
+  from {
+    opacity: 0;
+    translate: 0 40px;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes letter-hop {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  40% {
+    translate: 0 -0.3em;
+    rotate: -6deg;
   }
 }
 
@@ -2534,21 +2859,49 @@ a {
   .flame,
   .btn.is-inviting,
   .sky-hint-ring::after,
-  .intro-hint {
-    animation: none !important;
-  }
-
-  .shooting-star {
-    display: none;
-  }
-
-  .hero-copy > *,
+  .intro-hint,
+  .envelope,
   .hero-polaroid,
   .hero-sticker,
   .hero-callout,
+  .hero-doodle,
+  .intro-loved-heart,
+  .letter-heart,
+  .fact-icon,
+  .jar-tag-swing,
+  .cassette,
+  .finale-cake,
+  .finale-letter,
+  .footer-heart,
+  .reveal-pin > *,
+  .reveal-pin .tape {
+    animation: none !important;
+  }
+
+  .shooting-star,
+  .intro-floaters {
+    display: none;
+  }
+
+  .reveal-pin > *,
+  .finale-inner .finale-cake {
+    opacity: 1 !important;
+  }
+
+  .section-head .kicker,
+  .section-head .sub,
+  .title .word > span {
+    clip-path: none;
+    opacity: 1;
+    translate: none;
+    rotate: none;
+    transition: none;
+  }
+
+  .hero-copy > *,
   .intro-kicker,
   .intro-line,
-  .envelope,
+  .intro-loved,
   .jar-star,
   .doodle path {
     animation-duration: 0.01ms !important;
