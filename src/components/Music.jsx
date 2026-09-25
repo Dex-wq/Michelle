@@ -1,13 +1,16 @@
 import { useEffect, useRef } from "react";
-import { FRIEND_NAME, PHOTO_SRC, SONG_TITLE } from "../content";
+import { FRIEND_NAME, SONG_TITLE } from "../content";
+import { splitTrailingEmoji } from "../utils";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
 
-const BARS = 36;
-const IDLE = Array.from({ length: BARS }, (_, i) => 0.12 + Math.abs(Math.sin(i * 0.45 + 1)) * 0.5);
+const BARS = 28;
+const IDLE = Array.from({ length: BARS }, (_, i) => 0.14 + Math.abs(Math.sin(i * 0.5 + 1)) * 0.46);
 
+// a mixtape with her name on it; the reels turn while the song plays
 export default function Music({ playing, onToggle, analyserRef }) {
   const eqRef = useRef(null);
+  const [name] = splitTrailingEmoji(FRIEND_NAME);
 
   // live, mirrored spectrum when Web Audio is available; otherwise CSS bounces the bars
   useEffect(() => {
@@ -39,38 +42,41 @@ export default function Music({ playing, onToggle, analyserRef }) {
   return (
     <section id="music" className="section">
       <div className="container">
-        <SectionHeader eyebrow="The Vibe" title="You are an embodiment of love❤️">
-          Every song was written thinking of someone like you ✦
-        </SectionHeader>
+        <SectionHeader kicker="turn it up for this one" title="You are an embodiment of love❤️" />
         <Reveal>
-          <div className={`player${playing ? " is-playing" : ""}`}>
-            <div className="turntable" aria-hidden="true">
-              <div className="vinyl">
-                <div
-                  className="vinyl-label"
-                  style={PHOTO_SRC ? { backgroundImage: `url(${PHOTO_SRC})` } : undefined}
-                />
+          <div className={`deck${playing ? " is-playing" : ""}`}>
+            <div className="cassette" aria-hidden="true">
+              <span className="cassette-screw s1" />
+              <span className="cassette-screw s2" />
+              <span className="cassette-screw s3" />
+              <span className="cassette-screw s4" />
+              <div className="cassette-label">
+                <span className="cassette-side">A</span>
+                <span className="cassette-title">{SONG_TITLE} ♡</span>
+                <span className="cassette-for">for {name}</span>
+                <div className="cassette-window">
+                  <span className="reel reel-left" />
+                  <span className="reel reel-right" />
+                </div>
               </div>
-              <div className="vinyl-sheen" />
-              <div className="tonearm">
-                <span className="tonearm-head" />
+              <div className="cassette-foot">
+                <i />
+                <i />
+                <i />
+                <i />
               </div>
             </div>
-            <div className="player-info">
-              <p className="player-kicker">
-                <span className="player-dot" />
-                {playing ? "Now playing" : "Press play"}
-              </p>
-              <h3 className="player-title">{SONG_TITLE}</h3>
-              <p className="player-sub">for {FRIEND_NAME}</p>
+
+            <div className="deck-controls">
+              <button type="button" className="btn btn-pink btn-lg" onClick={onToggle}>
+                {playing ? "❚❚  Pause" : "▶  Play it"}
+              </button>
               <div className="eq" ref={eqRef} aria-hidden="true">
                 {IDLE.map((height, i) => (
                   <span key={i} className="eq-bar" style={{ "--idle": height, "--delay": `${-i * 0.07}s` }} />
                 ))}
               </div>
-              <button type="button" className="btn btn-primary" onClick={onToggle}>
-                {playing ? "⏸  Pause ❤️" : "▶  Play"}
-              </button>
+              <p className="deck-status">{playing ? "now playing — side A" : "press play, I'll wait"}</p>
             </div>
           </div>
         </Reveal>

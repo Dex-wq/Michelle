@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { WISHES } from "../content";
+import { AGE, WISHES } from "../content";
 import { useInView } from "../hooks";
 import SectionHeader from "./SectionHeader";
+
+const TOTAL = WISHES.length;
 
 const DISTANT = [
   { left: "13%", top: "16%", scale: 0.32, delay: "0s" },
@@ -13,6 +15,7 @@ const DISTANT = [
 
 export default function Lanterns() {
   const [lanterns, setLanterns] = useState([]);
+  const [festival, setFestival] = useState([]);
   const [released, setReleased] = useState(0);
   const counter = useRef(0);
   const lastX = useRef(50);
@@ -26,12 +29,15 @@ export default function Lanterns() {
 
   const launch = useCallback(() => {
     const id = ++counter.current;
-    // alternate sides of the sky so consecutive wishes don't stack on each other
-    const x = lastX.current < 50 ? 56 + Math.random() * 24 : 20 + Math.random() * 24;
+    // alternate sides of the sky so consecutive wishes don't stack on each other;
+    // phones only have room for two narrow lanes
+    const narrow = window.matchMedia("(max-width: 600px)").matches;
+    const spread = narrow ? 8 : 24;
+    const x = lastX.current < 50 ? (narrow ? 70 : 56) + Math.random() * spread : (narrow ? 22 : 20) + Math.random() * spread;
     lastX.current = x;
     const lantern = {
       id,
-      wish: WISHES[(id - 1) % WISHES.length],
+      wish: WISHES[(id - 1) % TOTAL],
       x,
       duration: 9 + Math.random() * 2.5,
       sway: 6 + Math.random() * 12,
@@ -42,6 +48,20 @@ export default function Lanterns() {
     timers.current.push(
       setTimeout(() => setLanterns((l) => l.filter((ln) => ln.id !== id)), lantern.duration * 1000 + 200),
     );
+
+    // the last wish sets the whole sky alight
+    if (id === TOTAL) {
+      const sky = Array.from({ length: 18 }, (_, i) => ({
+        id: `sky-${i}`,
+        x: 4 + Math.random() * 92,
+        duration: 10 + Math.random() * 5,
+        delay: 0.4 + Math.random() * 3.4,
+        sway: 4 + Math.random() * 10,
+        scale: 0.35 + Math.random() * 0.4,
+      }));
+      setFestival(sky);
+      timers.current.push(setTimeout(() => setFestival([]), 19000));
+    }
   }, []);
 
   // send the first lantern up on its own so the sky shows what the button does
@@ -51,11 +71,12 @@ export default function Lanterns() {
     return () => clearTimeout(t);
   }, [stageInView, launch]);
 
+  const done = released >= TOTAL;
   return (
     <section id="wishes" className="section lantern-section">
       <div className="container">
-        <SectionHeader eyebrow="Make a Wish" heart>
-          Each lantern carries a wish into the universe ✦
+        <SectionHeader kicker="make a wish (or twenty-one)" title={`${TOTAL} wishes for ${AGE} years`}>
+          One lantern for every year of you. Send them up one by one.
         </SectionHeader>
       </div>
       <div className="lantern-stage" ref={stageRef}>
@@ -69,10 +90,28 @@ export default function Lanterns() {
             <div className="lantern-body" />
           </div>
         ))}
+        {festival.map((ln) => (
+          <div
+            key={ln.id}
+            className="lantern lantern-quiet"
+            aria-hidden="true"
+            style={{
+              left: `${ln.x}%`,
+              "--duration": `${ln.duration}s`,
+              "--sway": `${ln.sway}px`,
+              "--scale": ln.scale,
+              animationDelay: `${ln.delay}s`,
+            }}
+          >
+            <div className="lantern-sway">
+              <div className="lantern-body" />
+            </div>
+          </div>
+        ))}
         {lanterns.map((ln) => (
           <div
             key={ln.id}
-            className="lantern"
+            className={`lantern${ln.id < released ? " is-past" : ""}`}
             aria-hidden="true"
             style={{ left: `${ln.x}%`, "--duration": `${ln.duration}s`, "--sway": `${ln.sway}px`, "--scale": ln.scale }}
           >
@@ -93,11 +132,15 @@ export default function Lanterns() {
           />
         </svg>
         <div className="lantern-launch">
-          <button type="button" className="btn btn-primary btn-lg" onClick={launch}>
-            🏮 Release a Lantern
+          <button type="button" className="btn btn-butter btn-lg" onClick={launch}>
+            {done ? "🏮 Send another" : "🏮 Send a wish up"}
           </button>
-          <p className="lantern-count">
-            {released ? `${released} wish${released === 1 ? "" : "es"} sent to the sky` : "Tap to send a wish up"}
+          <p className={`lantern-count${done ? " is-done" : ""}`}>
+            {done
+              ? `All ${TOTAL} wishes are in the sky 💜`
+              : released
+                ? `${released} of ${TOTAL} wishes in the sky`
+                : "Tap to send your first wish up"}
           </p>
           <p className="sr-only" aria-live="polite">
             {lanterns.at(-1)?.wish}

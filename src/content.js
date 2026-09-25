@@ -3,6 +3,7 @@
 // ══════════════════════════════════════════════════════════
 export const FRIEND_NAME = "Michelle💜"; // e.g. "Emily" — a trailing emoji is shown beside the name
 export const AGE = 21;
+export const BIRTH_YEAR = 2005; // shown on her constellation, "est. 2005"
 export const PHOTO_SRC = "/Michelle1.jpeg"; // e.g. "/her-photo.jpg" — drop file in public/ folder
 export const AUDIO_SRC = "/Lovr.mp3.mp3"; // 🎵 drop file in public/ folder e.g. "/her-song.mp3"
 export const SONG_TITLE = "So this is love";
@@ -10,6 +11,7 @@ export const SONG_TITLE = "So this is love";
 export const TAGLINE =
   "The universe's most beautiful star radiant enough to be admired, yet rare enough to be unforgettable.";
 
+// one lantern for every year of her
 export const WISHES = [
   "May every dream you chase manifest fully ✨",
   "You are the rarest star in the galaxy 💜",
@@ -17,26 +19,36 @@ export const WISHES = [
   "Your kindness is a superpower 🦋",
   "You make the world so much more beautiful 🌸",
   "Every room you enter becomes magical 💫",
-  "You are someone's(my) answered prayer 🙏",
+  "You are my answered prayer 🙏",
   "Your laugh is the best sound in existence 🎶",
   "The stars are jealous of how you shine forshoooooo!⭐",
   "You are pure cosmic love 💖",
   "Born to be legendary, always 👑",
   "The world is richer because you exist 🌍",
+  "May God order your steps this year and always 🙏",
+  "May everything you touch be blessed ✨",
+  "May He grant you your heart's desire 💫",
+  "May His wings cover you and keep you safe 🕊️",
+  "Na hiyo pass list ya 3rd year — lazima upatikane ndani 📜",
+  "May you feel every ounce of the love around you 💜",
+  "May your smile never lose its light 🌙",
+  "May 21 be your best year yet 🎂",
+  "I love you — today, and every day after 💜",
 ];
 
-export const QUOTES = [
-  { text: "You are not a drop in the ocean. You are the entire ocean in a drop.", author: "Rumi" },
-  { text: "Some souls just understand each other upon meeting.", author: "N.R. Hart" },
-  { text: "In the chaos of life, you are my constellation.", author: "For You" },
-  { text: "She is clothed in strength and dignity, and she laughs without fear.", author: "Proverbs 31" },
-  { text: "The most beautiful thing in the world is a heart that loves freely.", author: `For ${FRIEND_NAME}` },
-  { text: "She was the universe's favourite secret, finally revealed.", author: "Written in Stardust" },
+// little notes, from me to her
+export const NOTES = [
+  { text: "You are adored. You are chosen. You are so deeply seen.", sign: "never forget this" },
+  { text: "In the chaos of life, you are my constellation.", sign: "me, every single day" },
+  { text: "You were the universe's favourite secret, finally revealed.", sign: "the day you were born" },
+  { text: "You are clothed in strength and dignity, and you laugh without fear.", sign: "my prayer for you" },
+  { text: "The most beautiful thing in the world is a heart that loves freely — and yours does.", sign: "why I adore you" },
+  { text: "Some souls recognise each other the moment they meet. Mine knew yours.", sign: "us" },
 ];
 
 export const STATS = [
   { icon: "💜", num: "∞", label: "Reasons you're loved" },
-  { icon: "⭐", num: "1/∞", label: "Chance of someone like you" },
+  { icon: "⭐", num: "1/∞", label: "Chance of another you" },
   { icon: "🌌", num: String(AGE), label: "Years of pure magic" },
   { icon: "🎂", num: "1", label: "Day the stars aligned" },
 ];

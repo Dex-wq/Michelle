@@ -66,7 +66,7 @@ function tick() {
   raf = pieces.length ? requestAnimationFrame(tick) : 0;
 }
 
-export function burst({ x, y, count = 120, angle = -90, spread = 70, power = 14 } = {}) {
+export function burst({ x, y, count = 120, angle = -90, spread = 70, power = 14, scale = 1, shapes } = {}) {
   setup();
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const n = reduce ? Math.round(count / 4) : count;
@@ -74,18 +74,21 @@ export function burst({ x, y, count = 120, angle = -90, spread = 70, power = 14 
     const a = ((angle + (Math.random() - 0.5) * spread) * Math.PI) / 180;
     const v = power * (0.45 + Math.random() * 0.75);
     const roll = Math.random();
+    const shape = shapes
+      ? shapes[Math.floor(Math.random() * shapes.length)]
+      : roll < 0.18 ? "heart" : roll < 0.5 ? "circle" : "rect";
     pieces.push({
       x,
       y,
       vx: Math.cos(a) * v,
       vy: Math.sin(a) * v,
-      size: 7 + Math.random() * 7,
+      size: (7 + Math.random() * 7) * scale,
       rot: Math.random() * Math.PI * 2,
       spin: (Math.random() - 0.5) * 0.3,
       flip: Math.random() * Math.PI * 2,
       flipSpeed: 0.08 + Math.random() * 0.12,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      shape: roll < 0.18 ? "heart" : roll < 0.5 ? "circle" : "rect",
+      shape,
       life: 1,
       decay: 0.004 + Math.random() * 0.004,
     });
