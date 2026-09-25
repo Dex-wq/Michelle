@@ -41,7 +41,7 @@ export const NOTES = [
   { text: "Some people are born family. We chose each other.", sign: "family, by choice" },
   { text: "On the days you doubt yourself, borrow my eyes — I see a legend.", sign: "your biggest fan" },
   { text: "You never have to go through anything alone. Call me — 3am counts.", sign: "your 3am person" },
-  { text: "A true friend sees the first tear, catches the second and stops the third.", sign: "I've got you" },
+  { text: "Thank you for being my shoulder — to lean on, cry on and laugh on, no questions asked.", sign: "forever grateful" },
   { text: "You've heard all my stories, and you still let me tell them twice.", sign: "a saint, honestly" },
   { text: "We'll be eighty and still laughing at the same silly jokes.", sign: "pinky promise" },
 ];
@@ -55,11 +55,7 @@ export const STATS = [
 
 export const LETTER_DATE = "10th June";
 
-// the p.s. at the very end, and where her reply goes
-export const PS_NOTE = {
-  text: "Thank you for being my shoulder — to lean on, to cry on, to laugh on, no questions asked.",
-  sign: "your best friend, always",
-};
+// the little reply button in the footer opens WhatsApp to this number
 export const WHATSAPP_NUMBER = "254711280554"; // international format, no + or leading 0
 export const REPLY_MESSAGE = "I just opened my birthday surprise 😭💜";
 
