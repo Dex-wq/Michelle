@@ -2349,45 +2349,62 @@ a {
 }
 
 .reply-btn {
+  position: relative;
   display: inline-grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  margin-top: 14px;
+  width: 58px;
+  height: 58px;
+  margin-top: 18px;
   border: 2px solid var(--pen);
   border-radius: 50%;
-  background: var(--paper);
-  color: var(--pen);
-  box-shadow: 3px 3px 0 var(--pink);
+  background: radial-gradient(circle at 32% 28%, #5eea98, #25d366 55%, #1aa653);
+  color: #fff;
+  box-shadow: 4px 4px 0 var(--paper);
   transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+    transform 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
+}
+
+/* a soft ring that keeps inviting a tap */
+.reply-btn::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid #25d366;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: reply-ping 2.8s ease-out infinite;
 }
 
 .reply-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 var(--pink);
+  transform: translate(-2px, -2px) rotate(-8deg);
+  box-shadow: 6px 6px 0 var(--paper);
 }
 
 .reply-btn:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--pink);
+  box-shadow: 1px 1px 0 var(--paper);
 }
 
-.reply-btn svg {
-  width: 24px;
-  height: 24px;
-}
-
-.reply-bubble {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linejoin: round;
-}
-
-.reply-phone {
+.reply-logo {
+  width: 30px;
+  height: 30px;
   fill: currentColor;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.18));
+}
+
+.reply-heart {
+  position: absolute;
+  top: -7px;
+  right: -9px;
+  width: 26px;
+  height: 26px;
+  padding: 5px;
+  border: 2px solid var(--pen);
+  border-radius: 50%;
+  background: var(--pink);
+  fill: var(--pen);
+  animation: heartbeat 1.7s ease-in-out infinite;
 }
 
 /* on phones, keep the line clear of the floating song button */
@@ -2700,6 +2717,18 @@ a {
   }
 }
 
+@keyframes reply-ping {
+  0% {
+    opacity: 0.7;
+    scale: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+    scale: 1.6;
+  }
+}
+
 @keyframes twinkle {
   0%,
   100% {
@@ -2922,6 +2951,8 @@ a {
   .finale-cake,
   .finale-letter,
   .footer-heart,
+  .reply-btn::before,
+  .reply-heart,
   .reveal-pin > *,
   .reveal-pin .tape {
     animation: none !important;
